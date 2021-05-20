@@ -166,13 +166,14 @@ static inline fru_reclist_t *add_reclist(fru_reclist_t **reclist)
 /// Works both for fru_reclist_t* and for fru_mr_reclist_t*
 #define free_reclist(recp) while(recp) { \
 	typeof(recp->next) next = recp->next; \
+	free(recp->rec); \
 	free(recp); \
 	recp = next; \
 }
 
 #define FRU_VER_1    1
 #define FRU_MINIMUM_AREA_HEADER \
-	uint8_t ver:4, rsvd:4;  /**< Area format version */
+	uint8_t ver;  /**< Area format version, only lower 4 bits */
 
 #define FRU_INFO_AREA_HEADER \
 	FRU_MINIMUM_AREA_HEADER; \
